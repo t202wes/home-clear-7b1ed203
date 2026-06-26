@@ -4,6 +4,7 @@ import { useStore, taskStatus } from "@/lib/store";
 import { useUIStore } from "@/lib/ui-store";
 import { TaskRow } from "@/components/TaskRow";
 import { SummaryTiles } from "@/components/SummaryTiles";
+import { ClientOnly } from "@/components/ClientOnly";
 import { Building2, Plus } from "lucide-react";
 import { startOfMonth, isAfter, addDays } from "date-fns";
 
@@ -15,11 +16,32 @@ export const Route = createFileRoute("/")({
     ],
   }),
   component: TasksPageWrapper,
-  ssr: false,
 });
 
 function TasksPageWrapper() {
-  return <TasksPage />;
+  return (
+    <ClientOnly fallback={<TasksPageSkeleton />}>
+      <TasksPage />
+    </ClientOnly>
+  );
+}
+
+function TasksPageSkeleton() {
+  return (
+    <div className="max-w-4xl mx-auto px-5 md:px-8 py-8 md:py-10">
+      <div className="h-9 w-48 rounded-md bg-paper-dark" />
+      <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+        {Array.from({ length: 4 }).map((_, index) => (
+          <div key={index} className="h-24 rounded-lg bg-paper-dark ring-1 ring-black/5" />
+        ))}
+      </div>
+      <div className="mt-10 space-y-3">
+        {Array.from({ length: 5 }).map((_, index) => (
+          <div key={index} className="h-16 rounded-md bg-card ring-1 ring-black/[0.04]" />
+        ))}
+      </div>
+    </div>
+  );
 }
 
 function TasksPage() {
