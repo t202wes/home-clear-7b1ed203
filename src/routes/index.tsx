@@ -6,6 +6,7 @@ import { TaskRow } from "@/components/TaskRow";
 import { SummaryTiles } from "@/components/SummaryTiles";
 import { ClientOnly } from "@/components/ClientOnly";
 import { Plus } from "lucide-react";
+import { startOfMonth, isAfter, addDays } from "date-fns";
 
 export const Route = createFileRoute("/")({
   head: () => ({
