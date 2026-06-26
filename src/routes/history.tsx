@@ -43,7 +43,6 @@ function HistoryPage() {
   const tasks = useStore((s) => s.tasks);
   const properties = useStore((s) => s.properties);
   const propertyFilter = useUIStore((s) => s.propertyFilter);
-  const setPropertyFilter = useUIStore((s) => s.setPropertyFilter);
   const openTask = useUIStore((s) => s.openTask);
 
   const grouped = useMemo(() => {
