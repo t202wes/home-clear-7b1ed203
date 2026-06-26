@@ -106,6 +106,7 @@ export function TaskDetailContent({
           <Calendar className="size-4" />
         </button>
         <button
+          onClick={() => openEditTask(task.id)}
           className="size-10 grid place-items-center bg-card text-bark/70 rounded-md ring-1 ring-black/5 hover:text-bark"
           aria-label="Edit"
         >
