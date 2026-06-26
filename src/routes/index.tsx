@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useStore, taskStatus } from "@/lib/store";
 import { useUIStore } from "@/lib/ui-store";
 import { useMediaQuery } from "@/hooks/use-media-query";
