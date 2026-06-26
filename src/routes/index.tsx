@@ -5,7 +5,7 @@ import { useUIStore } from "@/lib/ui-store";
 import { TaskRow } from "@/components/TaskRow";
 import { SummaryTiles } from "@/components/SummaryTiles";
 import { ClientOnly } from "@/components/ClientOnly";
-import { Building2, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { startOfMonth, isAfter, addDays } from "date-fns";
 
 export const Route = createFileRoute("/")({
@@ -49,7 +49,6 @@ function TasksPage() {
   const events = useStore((s) => s.events);
   const properties = useStore((s) => s.properties);
   const propertyFilter = useUIStore((s) => s.propertyFilter);
-  const setPropertyFilter = useUIStore((s) => s.setPropertyFilter);
   const openAddTask = useUIStore((s) => s.openAddTask);
 
   const filtered = useMemo(
@@ -103,19 +102,9 @@ function TasksPage() {
           <h2 className="font-display font-semibold text-2xl md:text-3xl tracking-tight text-bark truncate">
             {activeProperty?.name ?? "Maintenance"}
           </h2>
-          <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
-            <Building2 className="size-3.5" />
-            <select
-              value={propertyFilter}
-              onChange={(e) => setPropertyFilter(e.target.value)}
-              className="bg-transparent text-fern font-medium focus:outline-none cursor-pointer"
-            >
-              <option value="all">All properties</option>
-              {properties.map((p) => (
-                <option key={p.id} value={p.id}>{p.name}</option>
-              ))}
-            </select>
-          </div>
+          <p className="text-sm text-muted-foreground mt-1">
+            {activeProperty ? "Property tasks" : "All properties"}
+          </p>
         </div>
         <button
           onClick={openAddTask}
