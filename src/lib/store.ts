@@ -36,6 +36,8 @@ type State = {
   addTask: (t: Omit<Task, "id" | "createdAt">) => string;
   updateTask: (id: string, patch: Partial<Task>) => void;
   completeTask: (taskId: string, opts?: { completedAt?: string; note?: string; by?: string }) => void;
+  updateEvent: (id: string, patch: Partial<Omit<MaintenanceEvent, "id" | "taskId">>) => void;
+  deleteEvent: (id: string) => void;
 };
 
 const iso = (d: Date) => d.toISOString();
@@ -177,6 +179,14 @@ export const useStore = create<State>((set) => ({
       }
       return { events: [event, ...s.events], tasks: nextTasks };
     }),
+  updateEvent: (id, patch) =>
+    set((s) => ({
+      events: s.events.map((e) => (e.id === id ? { ...e, ...patch } : e)),
+    })),
+  deleteEvent: (id) =>
+    set((s) => ({
+      events: s.events.filter((e) => e.id !== id),
+    })),
 }));
 
 export type TaskStatus = "overdue" | "due-soon" | "later" | "completed";
