@@ -19,6 +19,7 @@ import { TaskDetailPane } from "@/components/TaskDetailPane";
 import { AddTaskSheet } from "@/components/AddTaskSheet";
 import { CompleteTaskDialog } from "@/components/CompleteTaskDialog";
 import { EditEventSheet } from "@/components/EditEventSheet";
+import { EditTaskSheet } from "@/components/EditTaskSheet";
 
 function NotFoundComponent() {
   return (
