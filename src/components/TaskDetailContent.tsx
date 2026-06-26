@@ -121,20 +121,20 @@ export function TaskDetailContent({
         {events.length === 0 ? (
           <p className="text-sm text-bark/50 italic">No completions logged yet.</p>
         ) : (
-          <div className="relative space-y-8 pl-5">
-            <div className="absolute left-[19px] top-1.5 bottom-1.5 w-px bg-moss/30" />
+          <div className="relative space-y-8 pl-8">
+            <div className="absolute left-4 top-1.5 bottom-1.5 w-px bg-moss/30" />
             {events.map((ev, i) => (
               <div key={ev.id} className="relative">
                 <div
                   className={cn(
-                    "absolute -left-[7px] top-1.5 size-3 rounded-full bg-paper-dark ring-2",
+                    "absolute -left-[22px] top-1.5 size-3 rounded-full bg-paper-dark ring-2",
                     i === 0 ? "ring-fern" : "ring-moss/40",
                   )}
                 />
                 <button
                   type="button"
                   onClick={() => openEditEvent(ev.id)}
-                  className="block w-full text-left -mx-2 px-2 py-1 rounded-md hover:bg-bark/5 transition-colors"
+                  className="block w-full text-left py-1 rounded-md hover:bg-bark/5 transition-colors"
                 >
                   <span className="block text-xs font-semibold text-bark">
                     Completed{ev.by ? ` by ${ev.by}` : ""}
