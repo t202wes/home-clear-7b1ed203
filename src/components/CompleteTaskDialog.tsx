@@ -12,9 +12,12 @@ import { Check } from "lucide-react";
 export function CompleteTaskDialog() {
   const taskId = useUIStore((s) => s.completeTaskId);
   const close = useUIStore((s) => s.closeComplete);
-  const task = useStore((s) => s.tasks.find((t) => t.id === taskId));
-  const property = useStore((s) => (task ? s.properties.find((p) => p.id === task.propertyId) : undefined));
+  const tasks = useStore((s) => s.tasks);
+  const properties = useStore((s) => s.properties);
   const completeTask = useStore((s) => s.completeTask);
+
+  const task = tasks.find((t) => t.id === taskId);
+  const property = task ? properties.find((p) => p.id === task.propertyId) : undefined;
 
   const [date, setDate] = useState(() => new Date().toISOString().slice(0, 10));
   const [by, setBy] = useState("");

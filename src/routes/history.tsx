@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import { format } from "date-fns";
 import { useStore } from "@/lib/store";
 import { useUIStore } from "@/lib/ui-store";
+import { ClientOnly } from "@/components/ClientOnly";
 import { Building2, ArrowUpRight } from "lucide-react";
 
 export const Route = createFileRoute("/history")({
@@ -12,9 +13,30 @@ export const Route = createFileRoute("/history")({
       { name: "description", content: "A chronological log of completed maintenance across your properties." },
     ],
   }),
-  component: HistoryPage,
-  ssr: false,
+  component: HistoryPageWrapper,
 });
+
+function HistoryPageWrapper() {
+  return (
+    <ClientOnly fallback={<HistoryPageSkeleton />}>
+      <HistoryPage />
+    </ClientOnly>
+  );
+}
+
+function HistoryPageSkeleton() {
+  return (
+    <div className="max-w-3xl mx-auto px-5 md:px-8 py-8 md:py-10">
+      <div className="h-4 w-32 rounded bg-paper-dark" />
+      <div className="mt-3 h-9 w-40 rounded-md bg-paper-dark" />
+      <div className="mt-10 space-y-3">
+        {Array.from({ length: 6 }).map((_, index) => (
+          <div key={index} className="h-16 rounded-md bg-card ring-1 ring-black/[0.04]" />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function HistoryPage() {
   const events = useStore((s) => s.events);
