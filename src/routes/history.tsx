@@ -13,6 +13,7 @@ export const Route = createFileRoute("/history")({
     ],
   }),
   component: HistoryPage,
+  ssr: false,
 });
 
 function HistoryPage() {

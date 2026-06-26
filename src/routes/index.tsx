@@ -14,8 +14,13 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "All maintenance tasks across your properties, grouped by status." },
     ],
   }),
-  component: TasksPage,
+  component: TasksPageWrapper,
+  ssr: false,
 });
+
+function TasksPageWrapper() {
+  return <TasksPage />;
+}
 
 function TasksPage() {
   const tasks = useStore((s) => s.tasks);
