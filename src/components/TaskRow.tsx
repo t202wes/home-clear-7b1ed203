@@ -15,19 +15,24 @@ export function TaskRow({ task }: { task: Task }) {
   const events = useStore((s) => s.events);
   const openTask = useUIStore((s) => s.openTask);
   const openCompleteFor = useUIStore((s) => s.openCompleteFor);
+  const openTaskId = useUIStore((s) => s.openTaskId);
 
   const status = taskStatus(task);
   const property = properties.find((p) => p.id === task.propertyId);
   const due = relativeDue(task.nextDueAt);
   const last = lastCompleted(events, task.id);
+  const isSelected = openTaskId === task.id;
 
   return (
     <div
       onClick={() => openTask(task.id)}
       className={cn(
-        "group relative flex items-center gap-3 bg-card pl-4 pr-3 py-3 rounded-md ring-1 ring-black/[0.04] border-l-4 transition-shadow hover:ring-black/10 hover:shadow-sm cursor-pointer",
+        "group relative flex items-center gap-3 bg-card pl-4 pr-3 py-3 rounded-md ring-1 border-l-4 transition-shadow cursor-pointer",
         accent[status],
         status === "later" && "opacity-90",
+        isSelected
+          ? "ring-bark/25 shadow-sm bg-paper-dark"
+          : "ring-black/[0.04] hover:ring-black/10 hover:shadow-sm",
       )}
     >
       <div className="flex-1 min-w-0">
@@ -53,7 +58,7 @@ export function TaskRow({ task }: { task: Task }) {
         </div>
       </div>
 
-      <div className="hidden md:flex opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity items-center gap-1 shrink-0">
+      <div className="hidden md:flex items-center gap-1 shrink-0">
         <button
           onClick={(e) => {
             e.stopPropagation();
@@ -78,6 +83,7 @@ export function TaskRow({ task }: { task: Task }) {
     </div>
   );
 }
+
 
 function DueChip({ text, tone }: { text: string; tone: "overdue" | "soon" | "neutral" }) {
   return (
