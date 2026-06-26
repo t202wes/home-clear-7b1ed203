@@ -49,7 +49,6 @@ function TasksPage() {
   const events = useStore((s) => s.events);
   const properties = useStore((s) => s.properties);
   const propertyFilter = useUIStore((s) => s.propertyFilter);
-  const setPropertyFilter = useUIStore((s) => s.setPropertyFilter);
   const openAddTask = useUIStore((s) => s.openAddTask);
 
   const filtered = useMemo(
