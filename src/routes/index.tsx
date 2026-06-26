@@ -11,7 +11,7 @@ import { startOfMonth, isAfter, addDays } from "date-fns";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "All tasks — Evergreen" },
+      { title: "All tasks — Fernwood" },
       { name: "description", content: "All maintenance tasks across your properties, grouped by status." },
     ],
   }),
