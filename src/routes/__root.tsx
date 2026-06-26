@@ -11,6 +11,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import "../lib/fonts";
+import faviconAsset from "@/assets/fernwood-favicon.png.asset.json";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AppSidebar, MobileTopBar } from "@/components/AppSidebar";
 import { TaskDetailSheet } from "@/components/TaskDetailSheet";
@@ -83,16 +84,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Evergreen — Property Maintenance" },
+      { title: "Fernwood — Property Maintenance" },
       { name: "description", content: "Calm, structured maintenance tracking for small property managers." },
-      { name: "author", content: "Evergreen" },
-      { property: "og:title", content: "Evergreen — Property Maintenance" },
+      { name: "author", content: "Fernwood" },
+      { property: "og:title", content: "Fernwood — Property Maintenance" },
       { property: "og:description", content: "Calm, structured maintenance tracking for small property managers." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "icon", type: "image/png", href: faviconAsset.url },
     ],
   }),
   shellComponent: RootShell,

@@ -1,5 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { ListChecks, History, Plus, Leaf, Building2 } from "lucide-react";
+import { ListChecks, History, Plus, Building2 } from "lucide-react";
+import faviconAsset from "@/assets/fernwood-favicon.png.asset.json";
 import { useStore } from "@/lib/store";
 import { useUIStore } from "@/lib/ui-store";
 import { cn } from "@/lib/utils";
@@ -15,10 +16,12 @@ export function AppSidebar() {
   return (
     <aside className="hidden md:flex w-64 shrink-0 flex-col bg-sidebar text-sidebar-foreground">
       <div className="p-6 flex items-center gap-3">
-        <div className="size-7 rounded-md bg-fern grid place-items-center ring-1 ring-white/10">
-          <Leaf className="size-4 text-paper" strokeWidth={2.25} />
-        </div>
-        <h1 className="font-display font-semibold text-lg tracking-tight">Evergreen</h1>
+        <img
+          src={faviconAsset.url}
+          alt="Fernwood"
+          className="size-7 rounded-md object-cover"
+        />
+        <h1 className="font-display font-semibold text-lg tracking-tight">Fernwood</h1>
       </div>
 
       <nav className="px-4 space-y-1">
@@ -140,10 +143,12 @@ export function MobileTopBar() {
   return (
     <div className="md:hidden sticky top-0 z-30 bg-sidebar text-sidebar-foreground">
       <div className="flex items-center gap-3 px-4 py-3">
-        <div className="size-7 rounded-md bg-fern grid place-items-center">
-          <Leaf className="size-4 text-paper" />
-        </div>
-        <h1 className="font-display font-semibold text-base tracking-tight">Evergreen</h1>
+        <img
+          src={faviconAsset.url}
+          alt="Fernwood"
+          className="size-7 rounded-md object-cover"
+        />
+        <h1 className="font-display font-semibold text-base tracking-tight">Fernwood</h1>
         <div className="ml-auto flex items-center gap-1 text-xs">
           <Link
             to="/"

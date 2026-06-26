@@ -9,7 +9,7 @@ import { ArrowUpRight } from "lucide-react";
 export const Route = createFileRoute("/history")({
   head: () => ({
     meta: [
-      { title: "History — Evergreen" },
+      { title: "History — Fernwood" },
       { name: "description", content: "A chronological log of completed maintenance across your properties." },
     ],
   }),
