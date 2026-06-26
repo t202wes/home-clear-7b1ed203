@@ -138,6 +138,7 @@ function RootComponent() {
       <TaskDetailSheet />
       <AddTaskSheet />
       <CompleteTaskDialog />
+      <EditEventSheet />
     </QueryClientProvider>
   );
 }
