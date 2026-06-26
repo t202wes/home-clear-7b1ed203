@@ -139,9 +139,17 @@ export function TaskDetailContent({
         <div
           onClick={startEditingNotes}
           className={cn(
-            "text-sm text-bark/70 leading-relaxed mb-7 cursor-text",
+            "text-sm text-bark/70 leading-relaxed mb-7 cursor-text hover:bg-bark/5 -mx-2 px-2 py-1 rounded-md transition-colors",
             task.notes ? "italic" : "text-bark/40 italic"
           )}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              startEditingNotes();
+            }
+          }}
         >
           {task.notes ? `"${task.notes}"` : "Add a description..."}
         </div>
