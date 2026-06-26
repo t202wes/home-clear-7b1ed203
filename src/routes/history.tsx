@@ -72,21 +72,9 @@ function HistoryPage() {
         <h2 className="font-display font-semibold text-2xl md:text-3xl tracking-tight text-bark mt-1">
           History
         </h2>
-        <div className="flex items-center gap-2 text-sm text-muted-foreground mt-2">
-          <Building2 className="size-3.5" />
-          <select
-            value={propertyFilter}
-            onChange={(e) => setPropertyFilter(e.target.value)}
-            className="bg-transparent text-fern font-medium focus:outline-none cursor-pointer"
-          >
-            <option value="all">All properties</option>
-            {properties.map((p) => (
-              <option key={p.id} value={p.id}>{p.name}</option>
-            ))}
-          </select>
-          <span className="text-bark/30">·</span>
-          <span className="text-bark/50">Read-only log of completed work</span>
-        </div>
+        <p className="text-sm text-muted-foreground mt-2">
+          Read-only log of completed work
+        </p>
       </header>
 
       {grouped.length === 0 ? (
