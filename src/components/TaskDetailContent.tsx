@@ -79,18 +79,40 @@ export function TaskDetailContent({
             {status === "overdue" ? "Overdue" : status === "due-soon" ? "Due soon" : "Active task"}
           </span>
         </div>
-        <h2 className="font-display font-semibold text-2xl leading-tight text-balance">
-          {task.title}
-        </h2>
-        <p className="text-sm text-muted-foreground mt-1">
-          {property?.name}
-          {property?.detail ? ` · ${property.detail}` : ""}
-        </p>
+        <div
+          onClick={startEditingNotes}
+          className="cursor-text group"
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              startEditingNotes();
+            }
+          }}
+        >
+          <h2 className="font-display font-semibold text-2xl leading-tight text-balance group-hover:text-bark/80 transition-colors">
+            {task.title}
+          </h2>
+          <p className="text-sm text-muted-foreground mt-1">
+            {property?.name}
+            {property?.detail ? ` · ${property.detail}` : ""}
+          </p>
+        </div>
       </div>
 
       <div className="grid grid-cols-3 gap-4 mb-7 pb-6 border-b border-bark/5">
-        <Meta label="Schedule" value={task.recurrence.kind === "recurring" ? task.recurrence.label : "One-off"} />
-        <Meta label="Next due" value={due.text} tone={due.tone === "overdue" ? "danger" : undefined} />
+        <Meta
+          label="Schedule"
+          value={task.recurrence.kind === "recurring" ? task.recurrence.label : "One-off"}
+          onClick={startEditingNotes}
+        />
+        <Meta
+          label="Next due"
+          value={due.text}
+          tone={due.tone === "overdue" ? "danger" : undefined}
+          onClick={startEditingNotes}
+        />
         <Meta label="Last done" value={last ? formatDate(last.completedAt) : "—"} />
       </div>
 
