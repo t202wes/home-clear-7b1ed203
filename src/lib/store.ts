@@ -179,6 +179,14 @@ export const useStore = create<State>((set) => ({
       }
       return { events: [event, ...s.events], tasks: nextTasks };
     }),
+  updateEvent: (id, patch) =>
+    set((s) => ({
+      events: s.events.map((e) => (e.id === id ? { ...e, ...patch } : e)),
+    })),
+  deleteEvent: (id) =>
+    set((s) => ({
+      events: s.events.filter((e) => e.id !== id),
+    })),
 }));
 
 export type TaskStatus = "overdue" | "due-soon" | "later" | "completed";
