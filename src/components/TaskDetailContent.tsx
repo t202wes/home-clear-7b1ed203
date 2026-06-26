@@ -15,6 +15,7 @@ export function TaskDetailContent({
 }) {
   const openCompleteFor = useUIStore((s) => s.openCompleteFor);
   const openEditEvent = useUIStore((s) => s.openEditEvent);
+  const openEditTask = useUIStore((s) => s.openEditTask);
   const updateTask = useStore((s) => s.updateTask);
   const tasks = useStore((s) => s.tasks);
   const properties = useStore((s) => s.properties);
