@@ -1,12 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useStore, taskStatus } from "@/lib/store";
 import { useUIStore } from "@/lib/ui-store";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import { TaskRow } from "@/components/TaskRow";
 import { SummaryTiles } from "@/components/SummaryTiles";
 import { ClientOnly } from "@/components/ClientOnly";
 import { Plus } from "lucide-react";
 import { startOfMonth, isAfter, addDays } from "date-fns";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -50,11 +52,27 @@ function TasksPage() {
   const properties = useStore((s) => s.properties);
   const propertyFilter = useUIStore((s) => s.propertyFilter);
   const openAddTask = useUIStore((s) => s.openAddTask);
+  const openTaskId = useUIStore((s) => s.openTaskId);
+  const openTask = useUIStore((s) => s.openTask);
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
+
 
   const filtered = useMemo(
     () => (propertyFilter === "all" ? tasks : tasks.filter((t) => t.propertyId === propertyFilter)),
     [tasks, propertyFilter],
   );
+
+  useEffect(() => {
+    if (!isDesktop) return;
+    if (filtered.length === 0) return;
+    if (openTaskId && filtered.some((t) => t.id === openTaskId)) return;
+    const first = [...filtered].sort(
+      (a, b) => +new Date(a.nextDueAt) - +new Date(b.nextDueAt),
+    )[0];
+    if (first) openTask(first.id);
+  }, [isDesktop, filtered, openTaskId, openTask]);
+
+
 
   const groups = useMemo(() => {
     const overdue: typeof filtered = [];
