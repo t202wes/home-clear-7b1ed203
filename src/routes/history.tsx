@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { useStore } from "@/lib/store";
 import { useUIStore } from "@/lib/ui-store";
 import { ClientOnly } from "@/components/ClientOnly";
-import { Building2, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 export const Route = createFileRoute("/history")({
   head: () => ({
