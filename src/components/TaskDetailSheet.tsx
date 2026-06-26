@@ -10,11 +10,14 @@ export function TaskDetailSheet() {
   const closeTask = useUIStore((s) => s.closeTask);
   const openCompleteFor = useUIStore((s) => s.openCompleteFor);
   const updateTask = useStore((s) => s.updateTask);
+  const tasks = useStore((s) => s.tasks);
+  const properties = useStore((s) => s.properties);
+  const allEvents = useStore((s) => s.events);
 
-  const task = useStore((s) => s.tasks.find((t) => t.id === openTaskId));
-  const property = useStore((s) => (task ? s.properties.find((p) => p.id === task.propertyId) : undefined));
-  const events = useStore((s) => (task ? eventsForTask(s.events, task.id) : []));
-  const last = useStore((s) => (task ? lastCompleted(s.events, task.id) : undefined));
+  const task = tasks.find((t) => t.id === openTaskId);
+  const property = task ? properties.find((p) => p.id === task.propertyId) : undefined;
+  const events = task ? eventsForTask(allEvents, task.id) : [];
+  const last = task ? lastCompleted(allEvents, task.id) : undefined;
 
   if (!task) return null;
   const status = taskStatus(task);
