@@ -14,6 +14,7 @@ import "../lib/fonts";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AppSidebar, MobileTopBar } from "@/components/AppSidebar";
 import { TaskDetailSheet } from "@/components/TaskDetailSheet";
+import { TaskDetailPane } from "@/components/TaskDetailPane";
 import { AddTaskSheet } from "@/components/AddTaskSheet";
 import { CompleteTaskDialog } from "@/components/CompleteTaskDialog";
 
@@ -123,8 +124,11 @@ function RootComponent() {
         <AppSidebar />
         <div className="flex-1 flex flex-col min-w-0">
           <MobileTopBar />
-          <main className="flex-1 overflow-y-auto">
-            <Outlet />
+          <main className="flex-1 flex overflow-hidden">
+            <div className="flex-1 min-w-0 overflow-y-auto">
+              <Outlet />
+            </div>
+            <TaskDetailPane />
           </main>
         </div>
       </div>
