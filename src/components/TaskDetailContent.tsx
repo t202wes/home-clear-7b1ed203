@@ -1,7 +1,8 @@
+import { useState } from "react";
 import { useStore, eventsForTask, lastCompleted, taskStatus } from "@/lib/store";
 import { useUIStore } from "@/lib/ui-store";
 import { relativeDue, formatDate, formatDateLong } from "@/lib/format";
-import { Check, Calendar, Pencil, X, ListChecks } from "lucide-react";
+import { Check, X, ListChecks } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function TaskDetailContent({
