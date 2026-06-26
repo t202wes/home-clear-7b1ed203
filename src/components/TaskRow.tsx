@@ -2,7 +2,6 @@ import { useStore, taskStatus, lastCompleted, type Task } from "@/lib/store";
 import { useUIStore } from "@/lib/ui-store";
 import { relativeDue, formatDate } from "@/lib/format";
 import { cn } from "@/lib/utils";
-import { Check, MoreHorizontal } from "lucide-react";
 
 const accent: Record<"overdue" | "due-soon" | "later", string> = {
   overdue: "border-rust/60",
@@ -14,7 +13,6 @@ export function TaskRow({ task }: { task: Task }) {
   const properties = useStore((s) => s.properties);
   const events = useStore((s) => s.events);
   const openTask = useUIStore((s) => s.openTask);
-  const openCompleteFor = useUIStore((s) => s.openCompleteFor);
   const openTaskId = useUIStore((s) => s.openTaskId);
 
   const status = taskStatus(task);
@@ -57,33 +55,9 @@ export function TaskRow({ task }: { task: Task }) {
           )}
         </div>
       </div>
-
-      <div className="hidden md:flex items-center gap-1 shrink-0">
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            openCompleteFor(task.id);
-          }}
-          className="flex items-center gap-1.5 text-xs font-medium bg-fern text-paper py-1.5 px-2.5 rounded-md ring-1 ring-fern/80 hover:bg-fern/90"
-        >
-          <Check className="size-3.5" />
-          Mark complete
-        </button>
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            openTask(task.id);
-          }}
-          className="size-7 grid place-items-center text-bark/40 hover:text-bark rounded-md"
-          aria-label="More"
-        >
-          <MoreHorizontal className="size-4" />
-        </button>
-      </div>
     </div>
   );
 }
-
 
 function DueChip({ text, tone }: { text: string; tone: "overdue" | "soon" | "neutral" }) {
   return (
@@ -100,3 +74,4 @@ function DueChip({ text, tone }: { text: string; tone: "overdue" | "soon" | "neu
     </span>
   );
 }
+
