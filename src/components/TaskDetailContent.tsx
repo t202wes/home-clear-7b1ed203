@@ -204,13 +204,33 @@ function Meta({
   label,
   value,
   tone,
+  onClick,
 }: {
   label: string;
   value: string;
   tone?: "danger";
+  onClick?: () => void;
 }) {
   return (
-    <div>
+    <div
+      onClick={onClick}
+      className={cn(
+        "select-none",
+        onClick && "cursor-text hover:bg-bark/5 -mx-2 px-2 py-1 rounded-md transition-colors"
+      )}
+      role={onClick ? "button" : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onKeyDown={
+        onClick
+          ? (e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                onClick();
+              }
+            }
+          : undefined
+      }
+    >
       <span className="block text-[10px] font-medium uppercase tracking-wider text-bark/40 mb-1">
         {label}
       </span>
