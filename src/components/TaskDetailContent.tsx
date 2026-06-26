@@ -15,6 +15,7 @@ export function TaskDetailContent({
 }) {
   const openCompleteFor = useUIStore((s) => s.openCompleteFor);
   const openEditEvent = useUIStore((s) => s.openEditEvent);
+  const openEditTask = useUIStore((s) => s.openEditTask);
   const updateTask = useStore((s) => s.updateTask);
   const tasks = useStore((s) => s.tasks);
   const properties = useStore((s) => s.properties);
@@ -105,6 +106,7 @@ export function TaskDetailContent({
           <Calendar className="size-4" />
         </button>
         <button
+          onClick={() => openEditTask(task.id)}
           className="size-10 grid place-items-center bg-card text-bark/70 rounded-md ring-1 ring-black/5 hover:text-bark"
           aria-label="Edit"
         >
