@@ -116,10 +116,35 @@ export function TaskDetailContent({
         <Meta label="Last done" value={last ? formatDate(last.completedAt) : "—"} />
       </div>
 
-      {task.notes && (
-        <p className="text-sm text-bark/70 leading-relaxed mb-7 italic">
-          "{task.notes}"
-        </p>
+      {isEditingNotes ? (
+        <textarea
+          autoFocus
+          value={draftNotes}
+          onChange={(e) => setDraftNotes(e.target.value)}
+          onBlur={saveNotes}
+          onKeyDown={(e) => {
+            if (e.key === "Escape") {
+              e.preventDefault();
+              cancelEditingNotes();
+            } else if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+              e.preventDefault();
+              saveNotes();
+            }
+          }}
+          placeholder="Add a description for this task..."
+          rows={4}
+          className="w-full bg-card rounded-md px-3 py-2 text-sm text-bark/70 leading-relaxed italic ring-1 ring-black/5 focus:outline-none focus:ring-fern resize-none mb-7"
+        />
+      ) : (
+        <div
+          onClick={startEditingNotes}
+          className={cn(
+            "text-sm text-bark/70 leading-relaxed mb-7 cursor-text",
+            task.notes ? "italic" : "text-bark/40 italic"
+          )}
+        >
+          {task.notes ? `"${task.notes}"` : "Add a description..."}
+        </div>
       )}
 
       <div className="flex gap-2 mb-8">
@@ -129,20 +154,6 @@ export function TaskDetailContent({
         >
           <Check className="size-4" />
           Mark complete
-        </button>
-        <button
-          onClick={reschedule}
-          className="size-10 grid place-items-center bg-card text-bark/70 rounded-md ring-1 ring-black/5 hover:text-bark"
-          aria-label="Reschedule"
-        >
-          <Calendar className="size-4" />
-        </button>
-        <button
-          onClick={() => openEditTask(task.id)}
-          className="size-10 grid place-items-center bg-card text-bark/70 rounded-md ring-1 ring-black/5 hover:text-bark"
-          aria-label="Edit"
-        >
-          <Pencil className="size-4" />
         </button>
       </div>
 
