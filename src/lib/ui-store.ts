@@ -36,4 +36,8 @@ export const useUIStore = create<UIState>((set) => ({
   completeTaskId: null,
   openCompleteFor: (id) => set({ completeTaskId: id }),
   closeComplete: () => set({ completeTaskId: null }),
+
+  editEventId: null,
+  openEditEvent: (id) => set({ editEventId: id }),
+  closeEditEvent: () => set({ editEventId: null }),
 }));
