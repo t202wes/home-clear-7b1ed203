@@ -53,7 +53,7 @@ export function TaskRow({ task }: { task: Task }) {
         </div>
       </div>
 
-      <div className="opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity flex items-center gap-1 shrink-0">
+      <div className="hidden md:flex opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity items-center gap-1 shrink-0">
         <button
           onClick={(e) => {
             e.stopPropagation();
