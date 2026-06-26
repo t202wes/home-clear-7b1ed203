@@ -55,7 +55,7 @@ function TasksPage() {
   const openTaskId = useUIStore((s) => s.openTaskId);
   const openTask = useUIStore((s) => s.openTask);
   const isDesktop = useMediaQuery("(min-width: 1024px)");
-
+  const prevPropertyFilterRef = useRef(propertyFilter);
 
   const filtered = useMemo(
     () => (propertyFilter === "all" ? tasks : tasks.filter((t) => t.propertyId === propertyFilter)),
@@ -65,12 +65,18 @@ function TasksPage() {
   useEffect(() => {
     if (!isDesktop) return;
     if (filtered.length === 0) return;
-    if (openTaskId && filtered.some((t) => t.id === openTaskId)) return;
+
+    const propertyFilterChanged = prevPropertyFilterRef.current !== propertyFilter;
+    prevPropertyFilterRef.current = propertyFilter;
+
+    if (openTaskId && filtered.some((t) => t.id === openTaskId) && !propertyFilterChanged) return;
+
     const first = [...filtered].sort(
       (a, b) => +new Date(a.nextDueAt) - +new Date(b.nextDueAt),
     )[0];
     if (first) openTask(first.id);
-  }, [isDesktop, filtered, openTaskId, openTask]);
+  }, [isDesktop, filtered, propertyFilter, openTaskId, openTask]);
+
 
 
 
