@@ -1,7 +1,8 @@
+import { useState } from "react";
 import { useStore, eventsForTask, lastCompleted, taskStatus } from "@/lib/store";
 import { useUIStore } from "@/lib/ui-store";
 import { relativeDue, formatDate, formatDateLong } from "@/lib/format";
-import { Check, Calendar, Pencil, X, ListChecks } from "lucide-react";
+import { Check, X, ListChecks } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function TaskDetailContent({
@@ -15,7 +16,6 @@ export function TaskDetailContent({
 }) {
   const openCompleteFor = useUIStore((s) => s.openCompleteFor);
   const openEditEvent = useUIStore((s) => s.openEditEvent);
-  const openEditTask = useUIStore((s) => s.openEditTask);
   const updateTask = useStore((s) => s.updateTask);
   const tasks = useStore((s) => s.tasks);
   const properties = useStore((s) => s.properties);
@@ -25,6 +25,9 @@ export function TaskDetailContent({
   const property = task ? properties.find((p) => p.id === task.propertyId) : undefined;
   const events = task ? eventsForTask(allEvents, task.id) : [];
   const last = task ? lastCompleted(allEvents, task.id) : undefined;
+
+  const [isEditingNotes, setIsEditingNotes] = useState(false);
+  const [draftNotes, setDraftNotes] = useState(task?.notes ?? "");
 
   if (!task) {
     return (
@@ -38,13 +41,20 @@ export function TaskDetailContent({
   const status = taskStatus(task);
   const due = relativeDue(task.nextDueAt);
 
-  const reschedule = () => {
-    const today = new Date().toISOString().slice(0, 10);
-    const next = window.prompt("Reschedule to (YYYY-MM-DD):", today);
-    if (next) {
-      const d = new Date(next + "T09:00:00");
-      if (!isNaN(d.getTime())) updateTask(task.id, { nextDueAt: d.toISOString() });
-    }
+  const startEditingNotes = () => {
+    setDraftNotes(task.notes ?? "");
+    setIsEditingNotes(true);
+  };
+
+  const saveNotes = () => {
+    const trimmed = draftNotes.trim();
+    updateTask(task.id, { notes: trimmed || undefined });
+    setIsEditingNotes(false);
+  };
+
+  const cancelEditingNotes = () => {
+    setDraftNotes(task.notes ?? "");
+    setIsEditingNotes(false);
   };
 
   return (
@@ -69,25 +79,80 @@ export function TaskDetailContent({
             {status === "overdue" ? "Overdue" : status === "due-soon" ? "Due soon" : "Active task"}
           </span>
         </div>
-        <h2 className="font-display font-semibold text-2xl leading-tight text-balance">
-          {task.title}
-        </h2>
-        <p className="text-sm text-muted-foreground mt-1">
-          {property?.name}
-          {property?.detail ? ` · ${property.detail}` : ""}
-        </p>
+        <div
+          onClick={startEditingNotes}
+          className="cursor-text group"
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              startEditingNotes();
+            }
+          }}
+        >
+          <h2 className="font-display font-semibold text-2xl leading-tight text-balance group-hover:text-bark/80 transition-colors">
+            {task.title}
+          </h2>
+          <p className="text-sm text-muted-foreground mt-1">
+            {property?.name}
+            {property?.detail ? ` · ${property.detail}` : ""}
+          </p>
+        </div>
       </div>
 
       <div className="grid grid-cols-3 gap-4 mb-7 pb-6 border-b border-bark/5">
-        <Meta label="Schedule" value={task.recurrence.kind === "recurring" ? task.recurrence.label : "One-off"} />
-        <Meta label="Next due" value={due.text} tone={due.tone === "overdue" ? "danger" : undefined} />
+        <Meta
+          label="Schedule"
+          value={task.recurrence.kind === "recurring" ? task.recurrence.label : "One-off"}
+          onClick={startEditingNotes}
+        />
+        <Meta
+          label="Next due"
+          value={due.text}
+          tone={due.tone === "overdue" ? "danger" : undefined}
+          onClick={startEditingNotes}
+        />
         <Meta label="Last done" value={last ? formatDate(last.completedAt) : "—"} />
       </div>
 
-      {task.notes && (
-        <p className="text-sm text-bark/70 leading-relaxed mb-7 italic">
-          "{task.notes}"
-        </p>
+      {isEditingNotes ? (
+        <textarea
+          autoFocus
+          value={draftNotes}
+          onChange={(e) => setDraftNotes(e.target.value)}
+          onBlur={saveNotes}
+          onKeyDown={(e) => {
+            if (e.key === "Escape") {
+              e.preventDefault();
+              cancelEditingNotes();
+            } else if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+              e.preventDefault();
+              saveNotes();
+            }
+          }}
+          placeholder="Add a description for this task..."
+          rows={4}
+          className="w-full bg-card rounded-md px-3 py-2 text-sm text-bark/70 leading-relaxed italic ring-1 ring-black/5 focus:outline-none focus:ring-fern resize-none mb-7"
+        />
+      ) : (
+        <div
+          onClick={startEditingNotes}
+          className={cn(
+            "text-sm text-bark/70 leading-relaxed mb-7 cursor-text hover:bg-bark/5 -mx-2 px-2 py-1 rounded-md transition-colors",
+            task.notes ? "italic" : "text-bark/40 italic"
+          )}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              startEditingNotes();
+            }
+          }}
+        >
+          {task.notes ? `"${task.notes}"` : "Add a description..."}
+        </div>
       )}
 
       <div className="flex gap-2 mb-8">
@@ -97,20 +162,6 @@ export function TaskDetailContent({
         >
           <Check className="size-4" />
           Mark complete
-        </button>
-        <button
-          onClick={reschedule}
-          className="size-10 grid place-items-center bg-card text-bark/70 rounded-md ring-1 ring-black/5 hover:text-bark"
-          aria-label="Reschedule"
-        >
-          <Calendar className="size-4" />
-        </button>
-        <button
-          onClick={() => openEditTask(task.id)}
-          className="size-10 grid place-items-center bg-card text-bark/70 rounded-md ring-1 ring-black/5 hover:text-bark"
-          aria-label="Edit"
-        >
-          <Pencil className="size-4" />
         </button>
       </div>
 
@@ -161,13 +212,33 @@ function Meta({
   label,
   value,
   tone,
+  onClick,
 }: {
   label: string;
   value: string;
   tone?: "danger";
+  onClick?: () => void;
 }) {
   return (
-    <div>
+    <div
+      onClick={onClick}
+      className={cn(
+        "select-none",
+        onClick && "cursor-text hover:bg-bark/5 -mx-2 px-2 py-1 rounded-md transition-colors"
+      )}
+      role={onClick ? "button" : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onKeyDown={
+        onClick
+          ? (e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                onClick();
+              }
+            }
+          : undefined
+      }
+    >
       <span className="block text-[10px] font-medium uppercase tracking-wider text-bark/40 mb-1">
         {label}
       </span>
