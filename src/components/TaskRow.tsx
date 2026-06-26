@@ -38,8 +38,12 @@ export function TaskRow({ task }: { task: Task }) {
       <div className="flex-1 min-w-0">
         <h4 className="text-sm font-medium text-bark truncate">{task.title}</h4>
         <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground">
-          <span className="truncate">{property?.name}</span>
-          <span className="size-1 rounded-full bg-bark/15 shrink-0" />
+          {showProperty && (
+            <>
+              <span className="truncate">{property?.name ?? "Unknown property"}</span>
+              <span className="size-1 rounded-full bg-bark/15 shrink-0" />
+            </>
+          )}
           <DueChip text={due.text} tone={due.tone} />
           {task.recurrence.kind === "recurring" && (
             <>
