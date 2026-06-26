@@ -15,6 +15,10 @@ type UIState = {
   completeTaskId: string | null;
   openCompleteFor: (id: string) => void;
   closeComplete: () => void;
+
+  editEventId: string | null;
+  openEditEvent: (id: string) => void;
+  closeEditEvent: () => void;
 };
 
 export const useUIStore = create<UIState>((set) => ({
