@@ -52,6 +52,10 @@ function TasksPage() {
   const properties = useStore((s) => s.properties);
   const propertyFilter = useUIStore((s) => s.propertyFilter);
   const openAddTask = useUIStore((s) => s.openAddTask);
+  const openTaskId = useUIStore((s) => s.openTaskId);
+  const openTask = useUIStore((s) => s.openTask);
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
+
 
   const filtered = useMemo(
     () => (propertyFilter === "all" ? tasks : tasks.filter((t) => t.propertyId === propertyFilter)),
