@@ -20,6 +20,9 @@ type UIState = {
   openEditEvent: (id: string) => void;
   closeEditEvent: () => void;
 
+  editTaskId: string | null;
+  openEditTask: (id: string) => void;
+  closeEditTask: () => void;
 };
 
 export const useUIStore = create<UIState>((set) => ({
@@ -41,4 +44,8 @@ export const useUIStore = create<UIState>((set) => ({
   editEventId: null,
   openEditEvent: (id) => set({ editEventId: id }),
   closeEditEvent: () => set({ editEventId: null }),
+
+  editTaskId: null,
+  openEditTask: (id) => set({ editTaskId: id }),
+  closeEditTask: () => set({ editTaskId: null }),
 }));
