@@ -62,6 +62,18 @@ function TasksPage() {
     [tasks, propertyFilter],
   );
 
+  useEffect(() => {
+    if (!isDesktop) return;
+    if (filtered.length === 0) return;
+    if (openTaskId && filtered.some((t) => t.id === openTaskId)) return;
+    const first = [...filtered].sort(
+      (a, b) => +new Date(a.nextDueAt) - +new Date(b.nextDueAt),
+    )[0];
+    if (first) openTask(first.id);
+  }, [isDesktop, filtered, openTaskId, openTask]);
+
+
+
   const groups = useMemo(() => {
     const overdue: typeof filtered = [];
     const soon: typeof filtered = [];
