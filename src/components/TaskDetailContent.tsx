@@ -16,7 +16,6 @@ export function TaskDetailContent({
   const openCompleteFor = useUIStore((s) => s.openCompleteFor);
   const openEditEvent = useUIStore((s) => s.openEditEvent);
   const openEditTask = useUIStore((s) => s.openEditTask);
-  const updateTask = useStore((s) => s.updateTask);
   const tasks = useStore((s) => s.tasks);
   const properties = useStore((s) => s.properties);
   const allEvents = useStore((s) => s.events);
@@ -37,15 +36,6 @@ export function TaskDetailContent({
 
   const status = taskStatus(task);
   const due = relativeDue(task.nextDueAt);
-
-  const reschedule = () => {
-    const today = new Date().toISOString().slice(0, 10);
-    const next = window.prompt("Reschedule to (YYYY-MM-DD):", today);
-    if (next) {
-      const d = new Date(next + "T09:00:00");
-      if (!isNaN(d.getTime())) updateTask(task.id, { nextDueAt: d.toISOString() });
-    }
-  };
 
   return (
     <div className={cn("relative p-8 h-full", className)}>
