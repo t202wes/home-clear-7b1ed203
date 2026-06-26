@@ -14,12 +14,14 @@ export function TaskRow({ task }: { task: Task }) {
   const events = useStore((s) => s.events);
   const openTask = useUIStore((s) => s.openTask);
   const openTaskId = useUIStore((s) => s.openTaskId);
+  const propertyFilter = useUIStore((s) => s.propertyFilter);
 
   const status = taskStatus(task);
   const property = properties.find((p) => p.id === task.propertyId);
   const due = relativeDue(task.nextDueAt);
   const last = lastCompleted(events, task.id);
   const isSelected = openTaskId === task.id;
+  const showProperty = propertyFilter === "all" || !property;
 
   return (
     <div
