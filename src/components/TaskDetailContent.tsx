@@ -129,7 +129,11 @@ export function TaskDetailContent({
                     i === 0 ? "ring-fern" : "ring-moss/40",
                   )}
                 />
-                <div>
+                <button
+                  type="button"
+                  onClick={() => openEditEvent(ev.id)}
+                  className="block w-full text-left -mx-2 px-2 py-1 rounded-md hover:bg-bark/5 transition-colors"
+                >
                   <span className="block text-xs font-semibold text-bark">
                     Completed{ev.by ? ` by ${ev.by}` : ""}
                   </span>
@@ -141,7 +145,7 @@ export function TaskDetailContent({
                       "{ev.note}"
                     </p>
                   )}
-                </div>
+                </button>
               </div>
             ))}
           </div>
