@@ -1,5 +1,7 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useStore } from "@/lib/store";
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
@@ -10,5 +12,25 @@ export const Route = createFileRoute("/_authenticated")({
     }
     return { user: data.user };
   },
-  component: () => <Outlet />,
+  component: AuthenticatedLayout,
 });
+
+function AuthenticatedLayout() {
+  const hydrate = useStore((s) => s.hydrate);
+  const reset = useStore((s) => s.reset);
+
+  useEffect(() => {
+    hydrate();
+    const { data: sub } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "SIGNED_IN" || event === "USER_UPDATED") {
+        reset();
+        hydrate();
+      } else if (event === "SIGNED_OUT") {
+        reset();
+      }
+    });
+    return () => sub.subscription.unsubscribe();
+  }, [hydrate, reset]);
+
+  return <Outlet />;
+}
