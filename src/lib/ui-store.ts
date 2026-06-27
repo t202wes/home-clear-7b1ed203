@@ -4,6 +4,10 @@ type UIState = {
   propertyFilter: string; // property id or "all"
   setPropertyFilter: (v: string) => void;
 
+  addPropertyOpen: boolean;
+  openAddProperty: () => void;
+  closeAddProperty: () => void;
+
   openTaskId: string | null;
   openTask: (id: string) => void;
   closeTask: () => void;
@@ -32,6 +36,10 @@ export const useUIStore = create<UIState>((set) => ({
   openTaskId: null,
   openTask: (id) => set({ openTaskId: id }),
   closeTask: () => set({ openTaskId: null }),
+
+  addPropertyOpen: false,
+  openAddProperty: () => set({ addPropertyOpen: true }),
+  closeAddProperty: () => set({ addPropertyOpen: false }),
 
   addTaskOpen: false,
   openAddTask: () => set({ addTaskOpen: true }),
