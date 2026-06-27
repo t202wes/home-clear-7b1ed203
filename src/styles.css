@@ -65,6 +65,16 @@
   --paper-dark: #f5f2e9;
   --rust: #8a3324;
 
+  /* Motion + status accents */
+  --accent-success: #4a7c59;
+  --accent-warning: #c98a2b;
+  --accent-danger: #8a3324;
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 140ms;
+  --dur-base: 240ms;
+  --dur-slow: 360ms;
+
   /* Semantic mapping */
   --background: var(--paper);
   --foreground: var(--bark);

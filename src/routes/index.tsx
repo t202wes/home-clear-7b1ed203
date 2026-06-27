@@ -4,8 +4,11 @@ import { useStore, taskStatus } from "@/lib/store";
 import { useUIStore } from "@/lib/ui-store";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { TaskRow } from "@/components/TaskRow";
+import { SwipeableTaskRow } from "@/components/SwipeableTaskRow";
+import { FilterPillRail } from "@/components/FilterPillRail";
 import { SummaryTiles } from "@/components/SummaryTiles";
 import { ClientOnly } from "@/components/ClientOnly";
+import { AnimatePresence, motion } from "framer-motion";
 import { Plus } from "lucide-react";
 import { startOfMonth, isAfter, addDays } from "date-fns";
 
@@ -139,14 +142,16 @@ function TasksPage() {
         </button>
       </header>
 
-      <div className="mb-10">
+      <div className="mb-6">
         <SummaryTiles tiles={tiles} />
       </div>
 
+      <FilterPillRail />
+
       <div className="space-y-10">
-        <Group title="Overdue" count={groups.overdue.length} tasks={groups.overdue} emptyText="Nothing overdue." />
-        <Group title="Due soon" count={groups.soon.length} tasks={groups.soon} emptyText="Nothing due in the next week." />
-        <Group title="Later" count={groups.later.length} tasks={groups.later} emptyText="No upcoming tasks." />
+        <Group title="Overdue" count={groups.overdue.length} tasks={groups.overdue} emptyText="Nothing overdue." isDesktop={isDesktop} />
+        <Group title="Due soon" count={groups.soon.length} tasks={groups.soon} emptyText="Nothing due in the next week." isDesktop={isDesktop} />
+        <Group title="Later" count={groups.later.length} tasks={groups.later} emptyText="No upcoming tasks." isDesktop={isDesktop} />
       </div>
     </div>
   );
@@ -157,11 +162,13 @@ function Group({
   count,
   tasks,
   emptyText,
+  isDesktop,
 }: {
   title: string;
   count: number;
   tasks: ReturnType<typeof useStore.getState>["tasks"];
   emptyText: string;
+  isDesktop: boolean;
 }) {
   return (
     <section>
@@ -174,11 +181,22 @@ function Group({
       {tasks.length === 0 ? (
         <p className="text-sm text-bark/40 italic px-1">{emptyText}</p>
       ) : (
-        <div className="space-y-2">
-          {tasks.map((t) => (
-            <TaskRow key={t.id} task={t} />
-          ))}
-        </div>
+        <motion.div layout className="space-y-2">
+          <AnimatePresence initial={false}>
+            {tasks.map((t) => (
+              <motion.div
+                key={t.id}
+                layout
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 420, damping: 36 }}
+              >
+                {isDesktop ? <TaskRow task={t} /> : <SwipeableTaskRow task={t} />}
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
       )}
     </section>
   );
