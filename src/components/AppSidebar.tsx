@@ -53,10 +53,17 @@ export function AppSidebar() {
         />
       </nav>
 
-      <div className="mt-10 px-7">
+      <div className="mt-10 px-7 flex items-center justify-between">
         <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-sidebar-foreground/40">
           Properties
         </span>
+        <button
+          onClick={openAddProperty}
+          className="text-sidebar-foreground/40 hover:text-sidebar-foreground transition-colors"
+          aria-label="Add property"
+        >
+          <Plus className="size-4" />
+        </button>
       </div>
       <nav className="mt-3 px-4 space-y-0.5 flex-1 overflow-y-auto">
         <PropertyButton
