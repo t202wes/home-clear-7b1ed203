@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { ListChecks, History, Plus, Building2, Menu, X } from "lucide-react";
+import { ListChecks, History, Plus, Building2, Menu } from "lucide-react";
 import faviconAsset from "@/assets/fernwood-favicon.png.asset.json";
 import { useStore } from "@/lib/store";
 import { useUIStore } from "@/lib/ui-store";
@@ -11,6 +11,7 @@ import {
   SheetTitle,
   SheetDescription,
 } from "@/components/ui/sheet";
+
 
 
 export function AppSidebar() {
