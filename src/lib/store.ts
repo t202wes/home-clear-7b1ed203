@@ -239,13 +239,6 @@ export const useStore = create<State>((set, get) => ({
     hydratePromise = (async () => {
       set({ loading: true });
       try {
-        const { data: userData } = await supabase.auth.getUser();
-        const user = userData.user;
-        if (!user) {
-          set({ properties: [], tasks: [], events: [], initialized: true, loading: false });
-          return;
-        }
-
         const [pRes, tRes, eRes] = await Promise.all([
           supabase.from("properties").select("id,name,detail").order("name"),
           supabase
@@ -263,33 +256,10 @@ export const useStore = create<State>((set, get) => ({
         if (tRes.error) throw tRes.error;
         if (eRes.error) throw eRes.error;
 
-        let properties = (pRes.data ?? []).map(propertyFromRow);
-        let tasks = (tRes.data ?? []).map(taskFromRow);
-        let events = (eRes.data ?? []).map(eventFromRow);
+        const properties = (pRes.data ?? []).map(propertyFromRow);
+        const tasks = (tRes.data ?? []).map(taskFromRow);
+        const events = (eRes.data ?? []).map(eventFromRow);
 
-        // First sign-in: seed demo data so the user lands in a populated app.
-        if (properties.length === 0) {
-          try {
-            await seedDemoData(user.id);
-            const [pRes2, tRes2, eRes2] = await Promise.all([
-              supabase.from("properties").select("id,name,detail").order("name"),
-              supabase
-                .from("tasks")
-                .select(
-                  "id,property_id,title,recurrence_kind,recurrence_every_days,recurrence_label,next_due_at,notes,created_at",
-                ),
-              supabase
-                .from("events")
-                .select("id,task_id,completed_at,by_name,note")
-                .order("completed_at", { ascending: false }),
-            ]);
-            properties = (pRes2.data ?? []).map(propertyFromRow);
-            tasks = (tRes2.data ?? []).map(taskFromRow);
-            events = (eRes2.data ?? []).map(eventFromRow);
-          } catch (err) {
-            console.error("Demo seed failed", err);
-          }
-        }
 
         set({ properties, tasks, events, initialized: true, loading: false });
       } catch (err) {
