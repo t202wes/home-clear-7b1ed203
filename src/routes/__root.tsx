@@ -17,6 +17,7 @@ import { AppSidebar, MobileTopBar } from "@/components/AppSidebar";
 import { TaskDetailSheet } from "@/components/TaskDetailSheet";
 import { TaskDetailPane } from "@/components/TaskDetailPane";
 import { AddTaskSheet } from "@/components/AddTaskSheet";
+import { AddPropertySheet } from "@/components/AddPropertySheet";
 import { CompleteTaskDialog } from "@/components/CompleteTaskDialog";
 import { EditEventSheet } from "@/components/EditEventSheet";
 import { EditTaskSheet } from "@/components/EditTaskSheet";
