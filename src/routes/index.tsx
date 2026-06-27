@@ -181,11 +181,22 @@ function Group({
       {tasks.length === 0 ? (
         <p className="text-sm text-bark/40 italic px-1">{emptyText}</p>
       ) : (
-        <div className="space-y-2">
-          {tasks.map((t) => (
-            <TaskRow key={t.id} task={t} />
-          ))}
-        </div>
+        <motion.div layout className="space-y-2">
+          <AnimatePresence initial={false}>
+            {tasks.map((t) => (
+              <motion.div
+                key={t.id}
+                layout
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 420, damping: 36 }}
+              >
+                {isDesktop ? <TaskRow task={t} /> : <SwipeableTaskRow task={t} />}
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
       )}
     </section>
   );
