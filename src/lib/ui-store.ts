@@ -4,6 +4,10 @@ type UIState = {
   propertyFilter: string; // property id or "all"
   setPropertyFilter: (v: string) => void;
 
+  addPropertyOpen: boolean;
+  openAddProperty: () => void;
+  closeAddProperty: () => void;
+
   openTaskId: string | null;
   openTask: (id: string) => void;
   closeTask: () => void;
