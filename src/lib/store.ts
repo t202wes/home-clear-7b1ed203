@@ -329,7 +329,7 @@ export const useStore = create<State>((set, get) => ({
     const next = { ...prev, ...patch };
     set((s) => ({ tasks: s.tasks.map((t) => (t.id === id ? next : t)) }));
 
-    const dbPatch: Record<string, unknown> = {};
+    const dbPatch: TablesUpdate<"tasks"> = {};
     if (patch.title !== undefined) dbPatch.title = patch.title;
     if (patch.propertyId !== undefined) dbPatch.property_id = patch.propertyId;
     if (patch.nextDueAt !== undefined) dbPatch.next_due_at = patch.nextDueAt;
@@ -401,7 +401,7 @@ export const useStore = create<State>((set, get) => ({
     const next = { ...prev, ...patch };
     set((s) => ({ events: s.events.map((e) => (e.id === id ? next : e)) }));
 
-    const dbPatch: Record<string, unknown> = {};
+    const dbPatch: TablesUpdate<"events"> = {};
     if (patch.completedAt !== undefined) dbPatch.completed_at = patch.completedAt;
     if (patch.by !== undefined) dbPatch.by_name = patch.by ?? null;
     if (patch.note !== undefined) dbPatch.note = patch.note ?? null;
