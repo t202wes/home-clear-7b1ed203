@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { addDays, subDays, subMonths } from "date-fns";
 import { supabase } from "@/integrations/supabase/client";
+import type { TablesUpdate } from "@/integrations/supabase/types";
 
 export type Property = {
   id: string;
