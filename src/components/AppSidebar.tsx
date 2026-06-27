@@ -151,10 +151,6 @@ export function MobileTopBar() {
   const pathname = useRouterState({ select: (r) => r.location.pathname });
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const activeProperty = propertyFilter === "all"
-    ? "All properties"
-    : properties.find((p) => p.id === propertyFilter)?.name ?? "All properties";
-
   return (
     <div className="md:hidden sticky top-0 z-30 bg-sidebar text-sidebar-foreground">
       <div className="flex items-center gap-2 px-4 py-3">
