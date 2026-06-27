@@ -1,9 +1,22 @@
-import { Link, useRouterState } from "@tanstack/react-router";
-import { ListChecks, History, Plus, Building2 } from "lucide-react";
+import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
+import { ListChecks, History, Plus, Building2, LogOut } from "lucide-react";
 import faviconAsset from "@/assets/fernwood-favicon.png.asset.json";
 import { useStore } from "@/lib/store";
 import { useUIStore } from "@/lib/ui-store";
 import { cn } from "@/lib/utils";
+import { supabase } from "@/integrations/supabase/client";
+import { useQueryClient } from "@tanstack/react-query";
+
+function useSignOut() {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  return async () => {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await supabase.auth.signOut();
+    navigate({ to: "/auth", replace: true });
+  };
+}
 
 export function AppSidebar() {
   const properties = useStore((s) => s.properties);
@@ -62,7 +75,7 @@ export function AppSidebar() {
         ))}
       </nav>
 
-      <div className="p-4">
+      <div className="p-4 space-y-2">
         <button
           onClick={openAddTask}
           className="w-full flex items-center justify-center gap-2 bg-fern text-paper text-sm font-medium py-2.5 rounded-md ring-1 ring-fern/80 hover:bg-fern/90 transition-colors"
@@ -70,8 +83,22 @@ export function AppSidebar() {
           <Plus className="size-4" />
           Add task
         </button>
+        <SignOutButton />
       </div>
     </aside>
+  );
+}
+
+function SignOutButton() {
+  const signOut = useSignOut();
+  return (
+    <button
+      onClick={signOut}
+      className="w-full flex items-center justify-center gap-2 text-sidebar-foreground/55 hover:text-sidebar-foreground text-xs py-2 rounded-md hover:bg-white/5"
+    >
+      <LogOut className="size-3.5" />
+      Sign out
+    </button>
   );
 }
 
