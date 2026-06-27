@@ -4,8 +4,11 @@ import { useStore, taskStatus } from "@/lib/store";
 import { useUIStore } from "@/lib/ui-store";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { TaskRow } from "@/components/TaskRow";
+import { SwipeableTaskRow } from "@/components/SwipeableTaskRow";
+import { FilterPillRail } from "@/components/FilterPillRail";
 import { SummaryTiles } from "@/components/SummaryTiles";
 import { ClientOnly } from "@/components/ClientOnly";
+import { AnimatePresence, motion } from "framer-motion";
 import { Plus } from "lucide-react";
 import { startOfMonth, isAfter, addDays } from "date-fns";
 
