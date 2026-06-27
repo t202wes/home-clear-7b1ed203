@@ -14,16 +14,303 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      events: {
+        Row: {
+          by_name: string | null
+          completed_at: string
+          created_at: string
+          id: string
+          note: string | null
+          task_id: string
+        }
+        Insert: {
+          by_name?: string | null
+          completed_at?: string
+          created_at?: string
+          id?: string
+          note?: string | null
+          task_id: string
+        }
+        Update: {
+          by_name?: string | null
+          completed_at?: string
+          created_at?: string
+          id?: string
+          note?: string | null
+          task_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "events_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      owners: {
+        Row: {
+          created_at: string
+          created_by: string
+          email: string | null
+          id: string
+          name: string
+          phone: string
+          sms_opt_in: boolean
+          timezone: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          email?: string | null
+          id?: string
+          name: string
+          phone: string
+          sms_opt_in?: boolean
+          timezone?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          email?: string | null
+          id?: string
+          name?: string
+          phone?: string
+          sms_opt_in?: boolean
+          timezone?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      properties: {
+        Row: {
+          contact_owner_id: string | null
+          created_at: string
+          detail: string | null
+          id: string
+          name: string
+          owner_user_id: string
+          updated_at: string
+        }
+        Insert: {
+          contact_owner_id?: string | null
+          created_at?: string
+          detail?: string | null
+          id?: string
+          name: string
+          owner_user_id: string
+          updated_at?: string
+        }
+        Update: {
+          contact_owner_id?: string | null
+          created_at?: string
+          detail?: string | null
+          id?: string
+          name?: string
+          owner_user_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "properties_contact_owner_fk"
+            columns: ["contact_owner_id"]
+            isOneToOne: false
+            referencedRelation: "owners"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      property_shares: {
+        Row: {
+          created_at: string
+          id: string
+          property_id: string
+          role: Database["public"]["Enums"]["share_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          property_id: string
+          role?: Database["public"]["Enums"]["share_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          property_id?: string
+          role?: Database["public"]["Enums"]["share_role"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "property_shares_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sms_messages: {
+        Row: {
+          body: string
+          created_at: string
+          direction: Database["public"]["Enums"]["sms_direction"]
+          error: string | null
+          id: string
+          owner_id: string
+          status: string | null
+          twilio_sid: string | null
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          direction: Database["public"]["Enums"]["sms_direction"]
+          error?: string | null
+          id?: string
+          owner_id: string
+          status?: string | null
+          twilio_sid?: string | null
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          direction?: Database["public"]["Enums"]["sms_direction"]
+          error?: string | null
+          id?: string
+          owner_id?: string
+          status?: string | null
+          twilio_sid?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sms_messages_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "owners"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sms_preferences: {
+        Row: {
+          daily_digest_enabled: boolean
+          daily_digest_hour: number
+          event_reminder_hours: number
+          overdue_alerts_enabled: boolean
+          owner_id: string
+          updated_at: string
+          weekly_summary_dow: number
+          weekly_summary_enabled: boolean
+          weekly_summary_hour: number
+        }
+        Insert: {
+          daily_digest_enabled?: boolean
+          daily_digest_hour?: number
+          event_reminder_hours?: number
+          overdue_alerts_enabled?: boolean
+          owner_id: string
+          updated_at?: string
+          weekly_summary_dow?: number
+          weekly_summary_enabled?: boolean
+          weekly_summary_hour?: number
+        }
+        Update: {
+          daily_digest_enabled?: boolean
+          daily_digest_hour?: number
+          event_reminder_hours?: number
+          overdue_alerts_enabled?: boolean
+          owner_id?: string
+          updated_at?: string
+          weekly_summary_dow?: number
+          weekly_summary_enabled?: boolean
+          weekly_summary_hour?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sms_preferences_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: true
+            referencedRelation: "owners"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tasks: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          last_overdue_notified_at: string | null
+          next_due_at: string
+          notes: string | null
+          property_id: string
+          recurrence_every_days: number | null
+          recurrence_kind: Database["public"]["Enums"]["recurrence_kind"]
+          recurrence_label: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          last_overdue_notified_at?: string | null
+          next_due_at: string
+          notes?: string | null
+          property_id: string
+          recurrence_every_days?: number | null
+          recurrence_kind?: Database["public"]["Enums"]["recurrence_kind"]
+          recurrence_label?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          last_overdue_notified_at?: string | null
+          next_due_at?: string
+          notes?: string | null
+          property_id?: string
+          recurrence_every_days?: number | null
+          recurrence_kind?: Database["public"]["Enums"]["recurrence_kind"]
+          recurrence_label?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tasks_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      can_edit_property: {
+        Args: { _property_id: string; _user_id: string }
+        Returns: boolean
+      }
+      can_view_property: {
+        Args: { _property_id: string; _user_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      recurrence_kind: "once" | "recurring"
+      share_role: "viewer" | "editor"
+      sms_direction: "inbound" | "outbound"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +437,10 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      recurrence_kind: ["once", "recurring"],
+      share_role: ["viewer", "editor"],
+      sms_direction: ["inbound", "outbound"],
+    },
   },
 } as const
