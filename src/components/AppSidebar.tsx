@@ -5,13 +5,11 @@ import { useStore } from "@/lib/store";
 import { useUIStore } from "@/lib/ui-store";
 import { cn } from "@/lib/utils";
 
-
 export function AppSidebar() {
   const properties = useStore((s) => s.properties);
   const propertyFilter = useUIStore((s) => s.propertyFilter);
   const setPropertyFilter = useUIStore((s) => s.setPropertyFilter);
   const openAddTask = useUIStore((s) => s.openAddTask);
-  const openAddProperty = useUIStore((s) => s.openAddProperty);
 
   const pathname = useRouterState({ select: (r) => r.location.pathname });
 
@@ -41,17 +39,10 @@ export function AppSidebar() {
         />
       </nav>
 
-      <div className="mt-10 px-7 flex items-center justify-between">
+      <div className="mt-10 px-7">
         <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-sidebar-foreground/40">
           Properties
         </span>
-        <button
-          onClick={openAddProperty}
-          className="text-sidebar-foreground/40 hover:text-sidebar-foreground transition-colors"
-          aria-label="Add property"
-        >
-          <Plus className="size-4" />
-        </button>
       </div>
       <nav className="mt-3 px-4 space-y-0.5 flex-1 overflow-y-auto">
         <PropertyButton
@@ -71,7 +62,7 @@ export function AppSidebar() {
         ))}
       </nav>
 
-      <div className="p-4 space-y-2">
+      <div className="p-4">
         <button
           onClick={openAddTask}
           className="w-full flex items-center justify-center gap-2 bg-fern text-paper text-sm font-medium py-2.5 rounded-md ring-1 ring-fern/80 hover:bg-fern/90 transition-colors"
@@ -83,7 +74,6 @@ export function AppSidebar() {
     </aside>
   );
 }
-
 
 function NavLink({
   to,

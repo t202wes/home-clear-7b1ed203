@@ -17,7 +17,6 @@ import { AppSidebar, MobileTopBar } from "@/components/AppSidebar";
 import { TaskDetailSheet } from "@/components/TaskDetailSheet";
 import { TaskDetailPane } from "@/components/TaskDetailPane";
 import { AddTaskSheet } from "@/components/AddTaskSheet";
-import { AddPropertySheet } from "@/components/AddPropertySheet";
 import { CompleteTaskDialog } from "@/components/CompleteTaskDialog";
 import { EditEventSheet } from "@/components/EditEventSheet";
 import { EditTaskSheet } from "@/components/EditTaskSheet";
@@ -88,16 +87,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Fernwood — Property Maintenance" },
-      { name: "description", content: "Property Harmony streamlines property maintenance management for landlords and property managers." },
+      { name: "description", content: "Calm, structured maintenance tracking for small property managers." },
       { name: "author", content: "Fernwood" },
       { property: "og:title", content: "Fernwood — Property Maintenance" },
-      { property: "og:description", content: "Property Harmony streamlines property maintenance management for landlords and property managers." },
+      { property: "og:description", content: "Calm, structured maintenance tracking for small property managers." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:title", content: "Fernwood — Property Maintenance" },
-      { name: "twitter:description", content: "Property Harmony streamlines property maintenance management for landlords and property managers." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/5ec41fdb-a7df-43a5-8e8f-34c3c457dadf/id-preview-319cc82d--66fce4d8-e47f-405e-8d6d-deb76d5f9006.lovable.app-1782521850356.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/5ec41fdb-a7df-43a5-8e8f-34c3c457dadf/id-preview-319cc82d--66fce4d8-e47f-405e-8d6d-deb76d5f9006.lovable.app-1782521850356.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -128,7 +123,6 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
-
     <QueryClientProvider client={queryClient}>
       <div className="flex min-h-screen w-full bg-paper text-bark">
         <AppSidebar />
@@ -143,7 +137,6 @@ function RootComponent() {
         </div>
       </div>
       <TaskDetailSheet />
-      <AddPropertySheet />
       <AddTaskSheet />
       <CompleteTaskDialog />
       <EditEventSheet />

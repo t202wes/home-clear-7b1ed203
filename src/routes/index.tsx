@@ -10,7 +10,7 @@ import { Plus } from "lucide-react";
 import { startOfMonth, isAfter, addDays } from "date-fns";
 
 
-export const Route = createFileRoute("/_authenticated/")({
+export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "All tasks — Fernwood" },
