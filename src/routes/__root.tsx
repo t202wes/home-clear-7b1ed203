@@ -169,6 +169,7 @@ function RootComponent() {
         </div>
       </div>
       <TaskDetailSheet />
+      <AddPropertySheet />
       <AddTaskSheet />
       <CompleteTaskDialog />
       <EditEventSheet />
