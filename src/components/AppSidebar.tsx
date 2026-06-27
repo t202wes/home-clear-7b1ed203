@@ -79,24 +79,11 @@ export function AppSidebar() {
           <Plus className="size-4" />
           Add task
         </button>
-        <SignOutButton />
       </div>
     </aside>
   );
 }
 
-function SignOutButton() {
-  const signOut = useSignOut();
-  return (
-    <button
-      onClick={signOut}
-      className="w-full flex items-center justify-center gap-2 text-sidebar-foreground/55 hover:text-sidebar-foreground text-xs py-2 rounded-md hover:bg-white/5"
-    >
-      <LogOut className="size-3.5" />
-      Sign out
-    </button>
-  );
-}
 
 function NavLink({
   to,
