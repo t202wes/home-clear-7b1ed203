@@ -32,5 +32,32 @@ function AuthenticatedLayout() {
     return () => sub.subscription.unsubscribe();
   }, [hydrate, reset]);
 
+  // Live updates: any change to properties / tasks / events from another
+  // device (or another tab) triggers a re-hydrate. RLS still applies to the
+  // refetch, so a user only sees rows they're allowed to see.
+  useEffect(() => {
+    let pending: ReturnType<typeof setTimeout> | null = null;
+    const schedule = () => {
+      if (pending) return;
+      pending = setTimeout(() => {
+        pending = null;
+        hydrate();
+      }, 250);
+    };
+
+    const channel = supabase
+      .channel("store-live")
+      .on("postgres_changes", { event: "*", schema: "public", table: "properties" }, schedule)
+      .on("postgres_changes", { event: "*", schema: "public", table: "tasks" }, schedule)
+      .on("postgres_changes", { event: "*", schema: "public", table: "events" }, schedule)
+      .subscribe();
+
+    return () => {
+      if (pending) clearTimeout(pending);
+      supabase.removeChannel(channel);
+    };
+  }, [hydrate]);
+
   return <Outlet />;
 }
+
