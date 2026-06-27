@@ -6,7 +6,7 @@ import { useUIStore } from "@/lib/ui-store";
 import { ClientOnly } from "@/components/ClientOnly";
 import { ArrowUpRight } from "lucide-react";
 
-export const Route = createFileRoute("/history")({
+export const Route = createFileRoute("/_authenticated/history")({
   head: () => ({
     meta: [
       { title: "History — Fernwood" },
