@@ -39,6 +39,7 @@ type State = {
   loading: boolean;
   hydrate: () => Promise<void>;
   reset: () => void;
+  addProperty: (p: Omit<Property, "id">) => string;
   addTask: (t: Omit<Task, "id" | "createdAt">) => string;
   updateTask: (id: string, patch: Partial<Task>) => void;
   completeTask: (
