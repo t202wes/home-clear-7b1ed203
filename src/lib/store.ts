@@ -302,6 +302,31 @@ export const useStore = create<State>((set, get) => ({
     return hydratePromise;
   },
 
+  addProperty: (p) => {
+    const id = newId();
+    const property: Property = { ...p, id };
+    set((s) => ({ properties: [...s.properties, property] }));
+    (async () => {
+      const { data: userData } = await supabase.auth.getUser();
+      const user = userData.user;
+      if (!user) {
+        set((s) => ({ properties: s.properties.filter((x) => x.id !== id) }));
+        return;
+      }
+      const { error } = await supabase.from("properties").insert({
+        id,
+        owner_user_id: user.id,
+        name: p.name,
+        detail: p.detail ?? null,
+      });
+      if (error) {
+        console.error("addProperty failed", error);
+        set((s) => ({ properties: s.properties.filter((x) => x.id !== id) }));
+      }
+    })();
+    return id;
+  },
+
   addTask: (t) => {
     const id = newId();
     const createdAt = new Date().toISOString();
