@@ -142,14 +142,16 @@ function TasksPage() {
         </button>
       </header>
 
-      <div className="mb-10">
+      <div className="mb-6">
         <SummaryTiles tiles={tiles} />
       </div>
 
+      <FilterPillRail />
+
       <div className="space-y-10">
-        <Group title="Overdue" count={groups.overdue.length} tasks={groups.overdue} emptyText="Nothing overdue." />
-        <Group title="Due soon" count={groups.soon.length} tasks={groups.soon} emptyText="Nothing due in the next week." />
-        <Group title="Later" count={groups.later.length} tasks={groups.later} emptyText="No upcoming tasks." />
+        <Group title="Overdue" count={groups.overdue.length} tasks={groups.overdue} emptyText="Nothing overdue." isDesktop={isDesktop} />
+        <Group title="Due soon" count={groups.soon.length} tasks={groups.soon} emptyText="Nothing due in the next week." isDesktop={isDesktop} />
+        <Group title="Later" count={groups.later.length} tasks={groups.later} emptyText="No upcoming tasks." isDesktop={isDesktop} />
       </div>
     </div>
   );
@@ -160,11 +162,13 @@ function Group({
   count,
   tasks,
   emptyText,
+  isDesktop,
 }: {
   title: string;
   count: number;
   tasks: ReturnType<typeof useStore.getState>["tasks"];
   emptyText: string;
+  isDesktop: boolean;
 }) {
   return (
     <section>
