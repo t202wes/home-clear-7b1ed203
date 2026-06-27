@@ -23,6 +23,7 @@ export function AppSidebar() {
   const propertyFilter = useUIStore((s) => s.propertyFilter);
   const setPropertyFilter = useUIStore((s) => s.setPropertyFilter);
   const openAddTask = useUIStore((s) => s.openAddTask);
+  const openAddProperty = useUIStore((s) => s.openAddProperty);
 
   const pathname = useRouterState({ select: (r) => r.location.pathname });
 
