@@ -159,7 +159,7 @@ export function MobileTopBar() {
     <div className="md:hidden sticky top-0 z-30 bg-sidebar text-sidebar-foreground">
       <div className="flex items-center gap-3 px-4 py-3">
         <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
-          <SheetContent side="left" className="w-3/4 max-w-xs bg-sidebar p-0 border-r border-sidebar-foreground/10">
+          <SheetContent side="left" className="w-3/4 max-w-xs bg-sidebar text-sidebar-foreground p-0 border-r border-sidebar-foreground/10">
             <SheetTitle className="sr-only">Navigation</SheetTitle>
             <SheetDescription className="sr-only">
               Navigate between tasks, history, and properties.
