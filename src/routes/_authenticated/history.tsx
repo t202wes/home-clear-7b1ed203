@@ -62,6 +62,8 @@ function HistoryPage() {
     return Array.from(map.entries());
   }, [events, tasks, propertyFilter]);
 
+  const activeProperty = properties.find((p) => p.id === propertyFilter);
+
   return (
     <div className="max-w-3xl mx-auto px-5 md:px-8 py-8 md:py-10">
       <header className="mb-8">
@@ -69,10 +71,10 @@ function HistoryPage() {
           Maintenance log
         </span>
         <h2 className="font-display font-semibold text-2xl md:text-3xl tracking-tight text-bark mt-1">
-          History
+          {activeProperty ? `${activeProperty.name} history` : "History"}
         </h2>
         <p className="text-sm text-muted-foreground mt-2">
-          Read-only log of completed work
+          {activeProperty ? "Completed work for this property" : "Read-only log of completed work"}
         </p>
       </header>
 
