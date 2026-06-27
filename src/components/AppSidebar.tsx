@@ -151,13 +151,9 @@ export function MobileTopBar() {
   const pathname = useRouterState({ select: (r) => r.location.pathname });
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const activeProperty = propertyFilter === "all"
-    ? "All properties"
-    : properties.find((p) => p.id === propertyFilter)?.name ?? "All properties";
-
   return (
     <div className="md:hidden sticky top-0 z-30 bg-sidebar text-sidebar-foreground">
-      <div className="flex items-center gap-3 px-4 py-3">
+      <div className="flex items-center gap-2 px-4 py-3">
         <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
           <SheetContent side="left" className="w-3/4 max-w-xs bg-sidebar text-sidebar-foreground p-0 border-r border-sidebar-foreground/10">
             <SheetTitle className="sr-only">Navigation</SheetTitle>
@@ -172,7 +168,7 @@ export function MobileTopBar() {
                     alt="Fernwood"
                     className="size-7 rounded-md object-cover"
                   />
-                  <h1 className="font-display font-semibold text-base tracking-tight">Fernwood</h1>
+                  <h1 className="font-display font-semibold text-base tracking-tight text-sidebar-foreground">Fernwood</h1>
                 </div>
               </div>
 
@@ -239,32 +235,48 @@ export function MobileTopBar() {
           <button
             type="button"
             onClick={() => setMenuOpen(true)}
-            className="inline-flex items-center justify-center size-9 rounded-md hover:bg-white/5 transition-colors"
+            className="inline-flex items-center justify-center size-9 rounded-md hover:bg-white/5 transition-colors shrink-0"
             aria-label="Open menu"
           >
             <Menu className="size-5" />
           </button>
         </Sheet>
 
-        <Link to="/" className="flex items-center gap-2.5 min-w-0">
-          <img
-            src={faviconAsset.url}
-            alt="Fernwood"
-            className="size-7 rounded-md object-cover"
-          />
-          <h1 className="font-display font-semibold text-base tracking-tight truncate">Fernwood</h1>
-        </Link>
-
-        <div className="ml-auto flex items-center gap-1">
-          <button
-            type="button"
-            onClick={openAddTask}
-            className="inline-flex items-center gap-1.5 bg-fern text-paper text-xs font-medium px-3 py-2 rounded-md hover:bg-fern/90 transition-colors"
-          >
-            <Plus className="size-3.5" />
-            <span className="hidden sm:inline">Add</span>
-          </button>
+        <div className="flex-1 flex justify-center">
+          <div className="inline-flex items-center rounded-lg bg-white/5 p-1">
+            <Link
+              to="/"
+              className={cn(
+                "px-3 py-1.5 text-sm font-medium rounded-md transition-colors",
+                pathname === "/"
+                  ? "bg-white/10 text-sidebar-foreground"
+                  : "text-sidebar-foreground/60 hover:text-sidebar-foreground",
+              )}
+            >
+              Tasks
+            </Link>
+            <Link
+              to="/history"
+              className={cn(
+                "px-3 py-1.5 text-sm font-medium rounded-md transition-colors",
+                pathname === "/history"
+                  ? "bg-white/10 text-sidebar-foreground"
+                  : "text-sidebar-foreground/60 hover:text-sidebar-foreground",
+              )}
+            >
+              History
+            </Link>
+          </div>
         </div>
+
+        <button
+          type="button"
+          onClick={openAddTask}
+          className="inline-flex items-center justify-center gap-1.5 bg-fern text-paper text-xs font-medium px-3 py-2 rounded-md hover:bg-fern/90 transition-colors shrink-0"
+        >
+          <Plus className="size-3.5" />
+          <span className="hidden sm:inline">Add</span>
+        </button>
       </div>
 
       <div className="px-4 pb-3 flex items-center gap-2">
@@ -280,7 +292,6 @@ export function MobileTopBar() {
             <option key={p.id} value={p.id} className="text-bark">{p.name}</option>
           ))}
         </select>
-        <span className="ml-auto text-xs text-sidebar-foreground/50 truncate">{activeProperty}</span>
       </div>
     </div>
   );
