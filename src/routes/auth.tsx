@@ -86,21 +86,6 @@ function AuthPage() {
               : "Start tracking maintenance across your properties."}
           </p>
 
-          <button
-            type="button"
-            onClick={handleGoogle}
-            disabled={busy}
-            className="w-full flex items-center justify-center gap-2 bg-white border border-bark/15 text-bark text-sm font-medium py-2.5 rounded-md hover:bg-bark/5 disabled:opacity-50"
-          >
-            <GoogleMark />
-            Continue with Google
-          </button>
-
-          <div className="my-5 flex items-center gap-3">
-            <div className="h-px flex-1 bg-bark/10" />
-            <span className="text-[10px] uppercase tracking-wider text-bark/40">or</span>
-            <div className="h-px flex-1 bg-bark/10" />
-          </div>
 
           <form onSubmit={handleEmail} className="space-y-3">
             <label className="block">
