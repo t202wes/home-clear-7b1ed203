@@ -37,6 +37,10 @@ export const useUIStore = create<UIState>((set) => ({
   openTask: (id) => set({ openTaskId: id }),
   closeTask: () => set({ openTaskId: null }),
 
+  addPropertyOpen: false,
+  openAddProperty: () => set({ addPropertyOpen: true }),
+  closeAddProperty: () => set({ addPropertyOpen: false }),
+
   addTaskOpen: false,
   openAddTask: () => set({ addTaskOpen: true }),
   closeAddTask: () => set({ addTaskOpen: false }),
